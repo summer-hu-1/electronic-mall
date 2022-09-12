@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>修改活动信息</h5>
+                    <div class="ibox-tools">
+                        <a class="close-link" th:href="@{/goods/getAllGoods}">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" th:action="@{/discount/editDiscount}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">折扣编号：</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="discountid" name="discountid"  th:value="${discount.discountid}"readonly="readonly" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">折价：</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="discountnum" name="discountnum" th:value="${discount.discountnum}" placeholder="请输入折价" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">商品名称：</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="goodsname" name="goodsname" th:value="${discount.goodsname}"readonly="readonly" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

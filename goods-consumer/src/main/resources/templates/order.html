@@ -1,0 +1,207 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Welcome to order page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body>
+
+
+<!--header area start-->
+<header>
+    <div class="main_header">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="header_contact_info">
+                            <ul>
+                                <li><a href="#"><i class="icon-call-in"></i>水彩春天杂货铺</a></li>
+                                <li><a href="#"><i class="icon-envelope"></i> Spring Cloud</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="language_currency text-right" th:if="${session.phonenum} ne null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/getAll}"><i class="icon-user"></i>  <em th:text="${session.phonenum}"></em> </a>
+                                </li>
+                                <li class="cart">
+                                    <a th:href="@{/goods/cartAll}"><i class="layui-icon-cart"></i> 我的购物车 </a>
+                                </li>
+
+                                <li class="collect">
+                                    <a th:href="@{/goods/collectAll}"><i class="layui-icon-cart"></i> 我的收藏 </a>
+                                </li>
+                                <li class="order">
+                                    <a th:href="@{/goods/getAllorder}"><i class="note-icon-orderedlist"></i> 我的订单 </a>
+                                </li>
+                                <li class="loginout">
+                                    <a href="http://localhost:8896/goods/quit"><i class="icon-call-out"></i> 退出登录 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="language_currency text-right" th:if="${session.phonenum} eq null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/quit}"><i class="icon-user"></i>  请登录 <i class="icon-right ion-ios-arrow-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header_middle sticky-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-3 offset-md-5 offset-lg-0 col-5 offset-3 col-sm-5">
+                        <div class="logo">
+                            <a th:href="@{/goods/getAll}" style="font-size:35px">
+                                水果电子商城
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--header area end-->
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--shopping cart area start -->
+<div class="shopping_cart_area">
+    <div class="container">
+        <form method="post" th:action="@{/goods/generate/order}">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table id="carttable">
+                                <thead>
+                                <tr>
+                                    <th class="product_remove">序号</th>
+                                    <th class="product_thumb">商品名称</th>
+                                    <th class="product_name">商品图片</th>
+                                    <th class="product-price">商品描述</th>
+                                    <th class="product_quantity">价格</th>
+                                    <th class="product_delete">数量</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="goods : ${goodsList}">
+                                    <td class="product_remove" th:text="${goods.gid}"></td>
+                                    <td class="product_name" th:text="${goods.gname}"></td>
+                                    <td class="product_thumb"><img style="height:120px;" th:src="${goods.gremain}" alt=""></td>
+                                    <td class="product-price" th:text="${goods.gdetails}"></td>
+                                    <td class="product_quantity" th:text="${goods.gprice}"></td>
+                                    <td class="product_total" th:text="${goods.types}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area start-->
+            <div class="coupon_area">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code left">
+                            <h3>收货地址</h3>
+                            <div class="coupon_inner">
+                                <tr th:each="address : ${addressList}">
+                                <form>
+                                    <input type="text" readonly th:value="${address.receivername}">
+                                    <input type="text" readonly th:value="${address.receiverphone}">
+                                    <input type="text" readonly th:value="${address.address}">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code right">
+                            <h3>Cart Totals</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>总计: </p>
+                                    <p class="cart_amount" th:text="${moneyNow} + ' 元'">￥0.00</p>
+                                </div>
+                                <div class="checkout_btn">
+                                    <!--建立空表单用于提交支付信息-->
+                                    <form id="summaryForm" action="/goods/generate/order" method="post">
+                                        <input style="border: none" type="hidden" id="moneyNow" name="moneyNow" th:value="${moneyNow}">
+                                        <button id="paygoods"> 确认购买 </button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area end-->
+        </form>
+    </div>
+</div>
+<!--shopping cart area end -->
+
+<!--footer area start-->
+<footer class="footer_widgets footer_padding">
+    <div class="container">
+
+        <div class="footer_bottom">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
+                    <div class="footer_logo">
+                        <a href="index.html"><img src="assets/img/logo/logo2.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer_link_menu">
+                        <ul>
+                            <li><a href="#">Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="copyright_area">
+                        <p>Copyright  © 2022  Summer.  <a href="https://hasthemes.com/" target="_blank">All rights reserved.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>
+

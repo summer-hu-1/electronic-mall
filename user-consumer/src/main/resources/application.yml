@@ -1,0 +1,24 @@
+server:
+  port: 8893  #服务端口
+spring:
+  application:
+    name: user-consumer   #服务名
+  main:
+    allow-bean-definition-overriding: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8500/eureka/  #服务注册地址
+  instance:
+    hostname: localhost
+thymeleaf:
+  cache: false      #关闭缓存
+  prefix: classpath:/templates/
+  suffix: .html
+  encoding: UTF-8
+feign:
+   hystrix:
+     enabled: true
+
+

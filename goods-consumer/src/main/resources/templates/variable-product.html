@@ -1,0 +1,348 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Welcome to variable product page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body>
+<!--header area start-->
+
+<header>
+    <div class="main_header">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="header_contact_info">
+                            <ul>
+                                <li><a href="#"><i class="icon-call-in"></i> 联系电话：12345</a></li>
+                                <li><a href="#"><i class="icon-envelope"></i> 欢迎联系咱们的电子商城</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="language_currency text-right" th:if="${session.phonenum} ne null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/getAll}"><i class="icon-user"></i>  <em th:text="${session.phonenum}"></em> </a>
+                                </li>
+                                <li class="cart">
+                                    <a th:href="@{/goods/cartAll}"><i class="layui-icon-cart"></i> 我的购物车 </a>
+                                </li>
+
+                                <li class="collect">
+                                    <a th:href="@{/goods/collectAll}"><i class="layui-icon-cart"></i> 我的收藏 </a>
+                                </li>
+                                <li class="order">
+                                    <a th:href="@{/goods/getAllorder}"><i class="note-icon-orderedlist"></i> 我的订单 </a>
+                                </li>
+                                <li class="loginout">
+                                    <a href="http://localhost:8896/goods/quit"><i class="icon-call-out"></i> 退出登录 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="language_currency text-right" th:if="${session.phonenum} eq null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/quit}"><i class="icon-user"></i>  请登录 <i class="icon-right ion-ios-arrow-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header_middle sticky-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-3 offset-md-5 offset-lg-0 col-5 offset-3 col-sm-5">
+                        <div class="logo">
+                            <a th:href="@{/goods/getAll}" style="font-size:35px">
+                                水果电子商城
+                            </a> </div>
+                    </div>
+                    <div class="col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--header area end-->
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+<!--                    <h3>享悦生活</h3>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--product details start-->
+<div class="product_details variable_product mb-60">
+    <div class="container">
+        <div class="row">
+            <!-- 图片展示-->
+            <div class="col-lg-5 col-md-5">
+                <div class="product-details-tab">
+                    <div id="img-1" class="zoomWrapper single-zoom">
+                        <a href="#">
+                            <img id="zoom1" th:src="${detail.gremain}" th:data-zoom-image="${detail.gremain}" alt="big-1">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-7">
+                <div class="product_d_right" style="margin-top:20px;height:600px;position:relative" >
+                    <form th:action="@{/goods/cart}" method="get">
+                        <div class="productd_title_nav">
+                            <h1 th:value="${detail.gname}"><a style="font-size:30px;" href="#" th:text="${detail.gname}">Lorem ipsum dolor sit amet elit</a></h1>
+                        </div>
+                        <input style="display:none" type="text" name="gid" th:value="${detail.gid}">
+                        <input style="display:none" type="text" name="gname" th:value="${detail.gname}">
+                        <input style="display:none" type="text" name="gremain" th:value="${detail.gremain}">
+
+                        <div class=" product_ratting">
+                            <ul>
+                                <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                <li class="review"><a href="#"> (customer review ) </a></li>
+                            </ul>
+                        </div>
+                        <div class="price_box">
+                            <span style="font-size:18px" class="current_price" > 单价： </span>
+                            <span class="current_price" th:value="${detail.gprice}" th:text="${detail.gprice} + ' 元'">$80.00</span>
+                            <input style="display:none" type="text" id="money" name="price" th:value="${detail.gprice}">
+                        </div>
+
+                        <div class="price_box">
+                            <p style="font-size:16px" th:text="${detail.gdetails}"></p>
+                        </div>
+
+                        <div style="position:absolute;top:300px;">
+                            <div class="product_desc" style="margin-top:80px;">
+                                <span style="font-size:20px;font-weight:600;" class="current_price" > 总价： </span>
+                                <span style="color:red;font-size:24px;" class="current_price" id="nowMoney2" th:text="${detail.gprice}">$80.00</span>
+                                <input style="display:none;" type="text" id="nowMoney" th:value="${detail.gname}">
+                            </div>
+
+                            <div class="product_variant quantity">
+                                <label style="font-size:18px;">总数</label>
+                                <input min="1" max="100" value="1" type="number" id="numberNow" name="number">
+                                <button class="submit" type="submit" style="color:white"> 加入购物车 </button>
+                            </div>
+
+                            <div class=" product_d_action">
+                                <ul>
+                                    <li class="product_variant quantity">
+                                        <a style="font-size:16px;"
+                                           th:href="@{'http://localhost:8896/goods/collectById?gid='+${detail.gid}}"
+                                           title="Add to wishlist">+ 点击收藏
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </form>
+                    <!--模拟输入动态计算的方式-->
+                    <script type="text/javascript">
+                        $("#numberNow").bind('input propertychange', function(){
+                            // 获取当前数量
+                            var number = document.getElementById("numberNow").value;
+                            // 获取价格
+                            var nowMoney = document.getElementById("money").value;
+                            // 计算金额
+                            var money = parseFloat(number) * parseFloat(nowMoney);
+
+                            console.log("number = " + number);
+                            console.log("nowMoney = " + nowMoney);
+
+                            document.getElementById("nowMoney").value = money.toFixed(2);
+                            // 修改文本值
+                            document.getElementById("nowMoney2").innerHTML = money.toFixed(2);
+
+
+                        });
+                    </script>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--product details end-->
+
+<!--product info start-->
+<div class="product_d_info mb-57">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="product_d_inner">
+                    <div class="product_info_button">
+                        <ul class="nav" role="tablist">
+                            <li >
+                                <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">描述</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">规格</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">评论 (1)</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="info" role="tabpanel" >
+                            <div class="product_info_content">
+                                <p>水果生意有其特殊性，水果的挑选和储藏技巧是第一要务，减少损耗是赚钱的基础。经营者最怕挑到不是那么新鲜的水果，或者储存不当，出现大批量的损坏。坏果的霉烂很容易传染，根据记者对各家水果店的调查，一批进错的水果造成的损失很有可能就会抵消当月所有的利润，如果是量大本小，进错当季主打货品，还有可能因为一批进错的水果而倒闭。</P>
+                                <P>要及时把握各种水果的时令，按照利润比率来讲，某种水果刚上市的时候，价格最高，顾客也容易图新鲜而购买，是最好赚钱的时间段。而在这种水果即将下市的时候，进货要十分小心，容易出现坏果。</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="sheet" role="tabpanel" >
+                            <div class="product_d_table">
+                                <form action="#">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td class="first_child">构成</td>
+                                            <td>聚酯纤维</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="first_child">风格</td>
+                                            <td>阳光新鲜</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="first_child">财产</td>
+                                            <td>短期商铺</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div class="product_info_content">
+                               <p>从大型批发市场进货的都是要货量大的商家。小主顾最好到中小型批发市场，那里的批发商部分货品也大批发市场，多一层转手，价格可能贵一些。不过进货还有个就近原则，大批发市场的货便宜些，加上路费，也不一定划得来。</p>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="reviews" role="tabpanel" >
+                            <div class="reviews_wrapper">
+                                <h2>对于此水果的一个评论留言</h2>
+                                <div class="reviews_comment_box">
+                                    <div class="comment_thmb">
+                                        <img th:src="@{/assets/img/blog/comment2.jpg}" alt="">
+                                    </div>
+                                    <div class="comment_text">
+                                        <div class="reviews_meta">
+                                            <div class="star_rating">
+                                                <ul>
+                                                    <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                                    <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                                    <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                                    <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                                    <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <p><strong>管理员 </strong>- 5月5日，2022年</p>
+                                            <span>阳光主题</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="comment_title">
+                                    <h2>新增评论 </h2>
+                                    <p>您的电子邮件地址将不会发布。必填字段已标记 </p>
+                                </div>
+                                <div class="product_ratting mb-10">
+                                    <h3>你的星级</h3>
+                                    <ul>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product_review_form">
+                                    <form action="@{http://localhost:8896/goods/detail}" method="get">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="review_comment">你的评论 </label>
+                                                <textarea name="comment" id="review_comment" ></textarea>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <label for="author">姓名</label>
+                                                <input id="author"  type="text">
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <label for="email">邮件 </label>
+                                                <input id="email"  type="text">
+                                            </div>
+                                        </div>
+                                        <button type="submit">提交</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--product info end-->
+
+<!--footer area start-->
+<footer class="footer_widgets footer_padding">
+    <div class="container">
+
+        <div class="footer_bottom">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
+                    <div class="footer_logo">
+                        <a href="index.html"><img src="assets/img/logo/logo2.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer_link_menu">
+                        <ul>
+                            <li><a href="#">Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="copyright_area">
+                        <p>Copyright  © 2022  Summer.  <a href="https://hasthemes.com/" target="_blank">All rights reserved.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--footer area end-->
+
+</body>
+
+</html>

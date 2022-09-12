@@ -1,0 +1,416 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Welcome to cart page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body>
+
+<!--header area start-->
+<header>
+    <div class="main_header">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="header_contact_info">
+                            <ul>
+                                <li><a href="#"><i class="icon-call-in"></i> 联系电话：12345</a></li>
+                                <li><a href="#"><i class="icon-envelope"></i> 欢迎联系咱们的电子商城</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="language_currency text-right" th:if="${session.phonenum} ne null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/getAll}"><i class="icon-user"></i>  <em th:text="${session.phonenum}"></em> </a>
+                                </li>
+                                <li class="cart">
+                                    <a th:href="@{/goods/cartAll}"><i class="layui-icon-cart"></i> 我的购物车 </a>
+                                </li>
+
+                                <li class="collect">
+                                    <a th:href="@{/goods/collectAll}"><i class="layui-icon-cart"></i> 我的收藏 </a>
+                                </li>
+                                <li class="order">
+                                    <a th:href="@{/goods/getAllorder}"><i class="note-icon-orderedlist"></i> 我的订单 </a>
+                                </li>
+                                <li class="loginout">
+                                    <a href="http://localhost:8896/goods/quit"><i class="icon-call-out"></i> 退出登录 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="language_currency text-right" th:if="${session.phonenum} eq null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/quit}"><i class="icon-user"></i>  请登录 <i class="icon-right ion-ios-arrow-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header_middle sticky-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-3 offset-md-5 offset-lg-0 col-5 offset-3 col-sm-5">
+                        <div class="logo">
+                            <a th:href="@{/goods/getAll}" style="font-size:35px">
+                                水果电子商城
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--header area end-->
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+<!--                    <h3>享悦生活</h3>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--shopping cart area start -->
+<div class="shopping_cart_area">
+    <div class="container">
+        <form method="post" th:action="@{/goods/goodsOrder}">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table id="carttable">
+                                <thead>
+                                <tr>
+                                    <th class="product_remove">序号</th>
+                                    <th class="product_thumb">商品名称</th>
+                                    <th class="product_name">商品图片</th>
+                                    <th class="product_name">数量</th>
+                                    <th class="product-price">单价</th>
+                                    <th class="product_quantity">小计</th>
+                                    <th class="product_delete">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="newgoods : ${carts}">
+
+                                    <input style="border: none" type="hidden" th:id="id + ${newgoodsStat.index}" name="id"
+                                           th:value="${newgoods.id}">
+                                    <input style="border: none;display: none" type="hidden" th:id="goodsname + ${newgoodsStat.index}" name="goodsname"
+                                           th:value="${newgoods.goodsname}">
+                                    <input style="border: none;display: none" type="hidden" th:id="gprice + ${newgoodsStat.index}" name="gprice">
+                                    <input style="border: none;display: none" type="hidden" th:id="number + ${newgoodsStat.index}" name="number1">
+
+                                    <td class="product_remove" >
+                                        <input type="checkbox" name="ids"  id="ids" th:value="${newgoods.id}">
+                                    </td>
+                                    <td class="product_thumb " id="name" th:text="${newgoods.goodsname}"></td>
+                                    <td class="product_thumb"><img style="height:100px;width:200px; " th:src="${newgoods.goodremain}" alt=""></td>
+                                    <td class="tdthree num" th:value="${newgoods.number}">
+                                                <span class="jiajie">
+
+                                                    <button class="checkout_btn" type="button" id="num-jian"
+                                                              onclick="clearLine1(this.parentNode.parentNode.parentNode.rowIndex)"> - </button>
+
+                                                    <input type="text" style="border: none;" class="input-num" name="number" id="input-num"
+                                                           th:value="${newgoods.number}"/>
+
+                                                    <button class="checkout_btn" type="button" id="num-jia"
+                                                              onclick="clearLine2(this.parentNode.parentNode.parentNode.rowIndex)"> + </button>
+                                                </span>
+                                    </td>
+                                    <td class="product-price" th:value="${newgoods.price}" th:text="${newgoods.price}">
+                                    <td class="product_quantity" id="count"></td>
+                                    <td class="product_delete"><a th:href="@{'http://localhost:8896/goods/deleteCart?did='+${newgoods.id}}">
+                                        <i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="cart_submit">
+                            <button type="button" onclick="checkAll()"> 清空所选 </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area start-->
+            <div class="coupon_area">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code left">
+                            <h3>收货地址</h3>
+                            <div class="coupon_inner">
+                                <a style="font-size:14px;" th:href="@{'http://localhost:8896/goods/createAddress1'}">修改收获地址</a>
+                                <form>
+                                    <tr th:each="address : ${addressList}">
+                                        <table>
+                                            <thead>
+                                            <th style="padding-left: 22px;"> 收货人</th>
+                                            <th style="padding-left: 22px;"> 联系方式</th>
+                                            <th style="padding-left: 22px;"> 收货地址</th>
+                                            </thead>
+                                            <tr>
+                                                <td>
+                                                    <input style="font-size:14px;" type="text" readonly th:value="${address.receivername}">
+                                                </td>
+                                                <td>
+                                                    <input style="font-size:14px;" type="text" readonly th:value="${address.receiverphone}">
+                                                </td>
+                                                <td>
+                                                    <input style="font-size:14px;" type="text" readonly th:value="${address.address}">
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code right">
+                            <h3>Cart Totals</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>购买商品: </p>
+                                    <p class="cart_amount" id="nowNumbers">￥0.00</p>
+                                </div>
+                                <div class="cart_subtotal">
+                                    <p>总计: </p>
+                                    <p class="cart_amount" id="nowMoneys">￥0.00</p>
+                                </div>
+
+                                <div class="checkout_btn">
+                                    <button> 确认购买 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area end-->
+        </form>
+    </div>
+</div>
+<!--shopping cart area end -->
+
+<!--footer area start-->
+<footer class="footer_widgets footer_padding">
+    <div class="container">
+
+        <div class="footer_bottom">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
+                    <div class="footer_logo">
+                        <a href="index.html"><img src="assets/img/logo/logo2.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer_link_menu">
+                        <ul>
+                            <li><a href="#">Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="copyright_area">
+                        <p>Copyright  © 2022  Summer.  <a href="https://hasthemes.com/" target="_blank">All rights reserved.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+
+    var num1;
+    var num2;
+
+    window.onload = function () {
+
+        var chkItems = document.getElementsByName("ids");
+        for (var i = 0; i < chkItems.length; i++) {
+            chkItems[i].onclick = calculateMoney;
+        }
+
+
+        var tableId = document.getElementById("carttable");
+        var count1 = 0;
+        var count2 = 0;
+        var count3 = '';
+        var count4 = 0;
+
+
+
+        for (var i = 1; i < tableId.rows.length - 2; i++) {
+            count4 = 0
+            var inputNum = tableId.rows[i].cells[3].getElementsByTagName("INPUT")[0].value;
+            var inputNumInt = parseInt(inputNum);
+            count1 += parseFloat(inputNum);
+            console.log("3:" + inputNumInt)
+            var p = tableId.rows[i].cells[4].innerHTML
+            console.log("p:" + p)
+            var pInt = parseFloat(p);
+            console.log("4:" + pInt)
+            tableId.rows[i].cells[5].innerHTML = (inputNumInt * pInt).toFixed(2);
+
+            count2 += inputNumInt * pInt;
+            count4 += inputNumInt * pInt;
+
+            count3 += count4 + ','
+        }
+        console.log("count1:" + count1)
+        console.log("count2:" + count2)
+    }
+
+    function clearLine2(element) {
+        console.log(element);
+        var tableId = document.getElementById("carttable");
+        var inputNum = tableId.rows[element].cells[3].getElementsByTagName("INPUT")[0].value;
+        var inputNumInt = parseInt(inputNum);
+        tableId.rows[element].cells[3].getElementsByTagName("INPUT")[0].value = inputNumInt + 1;
+        // 购买数量
+        var inputNumNow = inputNumInt + 1;
+        // 获取单价
+        var numMoney = parseFloat(tableId.rows[element].cells[4].innerHTML);
+        // 计算金额
+        tableId.rows[element].cells[5].innerHTML = (inputNumNow * numMoney).toFixed(2);
+
+        // 赋值
+        num1 = 0;
+        num2 = 0;
+        for (var i = 1; i < tableId.rows.length - 2; i++) {
+            num1 += parseInt(tableId.rows[i].cells[3].getElementsByTagName("INPUT")[0].value);
+            num2 += Number(tableId.rows[i].cells[5].innerHTML);
+        }
+
+        calculateMoney();
+
+    }
+
+    function clearLine1(element) {
+        console.log(element);
+        var tableId = document.getElementById("carttable");
+        var inputNum = tableId.rows[element].cells[3].getElementsByTagName("INPUT")[0].value;
+        var inputNumInt = parseInt(inputNum);
+        // 购买数量
+        var inputNumNow = 0;
+        // 获取单价
+        var numMoney = parseFloat(tableId.rows[element].cells[4].innerHTML);
+        if (inputNumInt > 0) {
+            tableId.rows[element].cells[3].getElementsByTagName("INPUT")[0].value = inputNumInt - 1;
+            inputNumNow = inputNumInt - 1;
+            // 计算金额
+            tableId.rows[element].cells[5].innerHTML = (inputNumNow * numMoney).toFixed(2);
+        } else {
+            tableId.rows[element].cells[3].getElementsByTagName("INPUT")[0].value = 0;
+            inputNumNow = 0;
+            // 计算金额
+            tableId.rows[element].cells[5].innerHTML = 0;
+        }
+        console.log("inputNumNow" + inputNumNow);
+        console.log("numMoney" + numMoney);
+        num1 = 0;
+        num2 = 0;
+        for (var i = 1; i < tableId.rows.length - 2; i++) {
+            num1 += parseInt(tableId.rows[i].cells[3].getElementsByTagName("INPUT")[0].value);
+            num2 += Number(tableId.rows[i].cells[5].innerHTML);
+        }
+
+        calculateMoney();
+
+    }
+
+
+    //全选和全清
+    function checkAll() {
+        var chkItems = document.getElementsByName("ids");
+        for (var i = 0; i < chkItems.length; i++) {
+            chkItems[i].checked = event.srcElement.checked;
+        }
+        calculateMoney();
+    }
+
+    //统计所有选中的产品金额
+    function calculateMoney() {
+        var sum = 0;
+        var chkItems = document.getElementsByName("ids");
+        var tableId = document.getElementById("carttable");
+        var inputNum;
+        var p;
+        var count1 = 0;
+
+        for (var i = 0; i < chkItems.length; i++) {
+
+            document.getElementById("id" + i).value = 'null';
+            document.getElementById("goodsname" + i).value = 'null';
+            document.getElementById("number" + i).value = 'null';
+            document.getElementById("gprice" + i).value = 'null';
+
+            console.log("---------------------" + chkItems[i].checked);
+            if (chkItems[i].checked) {
+                /*sum += parseInt(standardGold);*/
+                console.log("i：" + i);
+                inputNum = tableId.rows[i + 1].cells[3].getElementsByTagName("INPUT")[0].value;
+                console.log("数量：" + inputNum);
+                sum += parseInt(inputNum);
+            }
+            if (chkItems[i].checked) {
+                console.log("i：" + i);
+                inputNum = tableId.rows[i + 1].cells[3].getElementsByTagName("INPUT")[0].value;
+                console.log("数量：" + inputNum);
+                p = tableId.rows[i + 1].cells[4].innerHTML
+                console.log("单价：" + p);
+                count1 += parseInt(inputNum) * parseFloat(p);
+
+                console.log("序号：" + tableId.rows[i + 1].cells[0].getElementsByTagName("INPUT")[0].value);
+                console.log("商品名称：" + tableId.rows[i + 1].cells[1].innerHTML)
+                console.log("数量：" + tableId.rows[i + 1].cells[3].getElementsByTagName("INPUT")[0].value);
+                console.log("小计：" + parseInt(inputNum) * parseFloat(p));
+
+
+                //获取当前行的信息
+                document.getElementById("id" + i).value = tableId.rows[i + 1].cells[0].getElementsByTagName("INPUT")[0].value;
+                document.getElementById("goodsname" + i).value = tableId.rows[i + 1].cells[1].innerHTML;
+                document.getElementById("number" + i).value = tableId.rows[i + 1].cells[3].getElementsByTagName("INPUT")[0].value;
+                document.getElementById("gprice" + i).value = tableId.rows[i + 1].cells[4].innerHTML;
+            }
+        }
+
+        document.getElementById("nowMoneys").innerHTML = count1.toFixed(2);
+        document.getElementById("nowNumbers").innerHTML = sum;
+    }
+
+
+</script>

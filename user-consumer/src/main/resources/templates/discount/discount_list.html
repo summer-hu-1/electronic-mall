@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>活动信息显示页面</title>
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商品活动信息列表</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="discount_list.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 3D立体按钮在button的class中加入 dim -->
+                    <div class="ibox-content" style="margin-bottom:50px">
+                        <div class="row">
+                            <div class="col-sm-2 m-b-xs">
+                                <a data-toggle="modal" href="/discount/toaddGoodspage" >
+                                    <button style="width:130px" class="btn btn-outline btn-primary" type="button">
+                                        <i class="fa fa-plus"></i> 新增活动
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <form th:action="@{/discount/getAllDiscountByGName}">
+                                         <span class="input-group-btn">
+                                        <input style="height:35px;" type="text" placeholder="请输入关键词" id="keywords" name="keywords"
+                                               class="input-sm form-control">
+                                        <button style="height:35px;width:80px;" type="submit" class="btn btn-sm btn-primary"> 搜索</button>
+                                    </span>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" >
+                                <thead>
+                                    <tr style="size:24px;height:60px">
+                                        <th style="text-align:center;width:10%">序号</th>
+                                        <th style="text-align:center;width:10%">折扣编号</th>
+                                        <th style="text-align:center;width:10%">折价</th>
+                                        <th style="text-align:center;width:20%">商品编号</th>
+                                        <th style="text-align:center;width:20%">商品名称</th>
+                                        <th style="text-align:center;width:30%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;size:18px">
+                                    <tr th:each="discount : ${discountPageInfo.list}">
+                                        <td th:text="${discount.getId()}">序号</td>
+                                        <td th:text="${discount.getDiscountid()}">折扣编号</td>
+                                        <td th:text="${discount.getDiscountnum()}">折价</td>
+                                        <td th:text="${discount.getGoodsid()}">商品编号</td>
+                                        <td th:text="${discount.getGoodsname()}">商品名称</td>
+                                        <td>
+                                            <a data-toggle="modal" th:href="@{/discount/findDiscountById(id = ${discount.getId()})}">
+                                                <button style="margin-top:10px" class="btn btn-outline btn-success" type="button">
+                                                    <i class="fa fa-paste"></i> 修改
+                                                </button>
+                                            </a>
+                                            <a th:href="@{/discount/deleteDiscountById(id = ${discount.getId()})}">
+                                                <button style="margin-top:10px" class="btn btn-outline btn-danger " type="button" >
+                                                    <i class="fa fa-warning"></i> 删除
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- 分页组件 -->
+                            <div class="pagelist">
+                                <!--显示分页信息-->
+                                <div class="modal-footer no-margin-top">
+                                    <div class="col-md-6">
+                                        当前第 [[${discountPageInfo.pageNum}]]页,共 [[${discountPageInfo.pages}]] 页.一共 [[${discountPageInfo.total}]] 条记录
+                                    </div>
+
+                                    <ul class="pagination pull-right no-margin">
+                                        <li th:if="${discountPageInfo.hasPreviousPage}">
+                                            <a  th:href="@{/discount/getAllDiscount(currentPage=1,limit=${discountPageInfo.pageSize})}">首页</a>
+                                        </li>
+
+                                        <!--遍历条数-->
+                                        <li th:each="nav:${discountPageInfo.navigatepageNums}">
+                                            <a th:href="@{/discount/getAllDiscount(currentPage=${nav},limit=${discountPageInfo.pageSize})}" th:text="${nav}" th:if="${nav != discountPageInfo.pageNum}"></a>
+                                            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == discountPageInfo.pageNum}" th:text="${nav}" ></span>
+                                        </li>
+
+
+                                        <li th:if="${discountPageInfo.lastPage}">
+                                            <a  th:href="@{/discount/getAllDiscount(currentPage=${discountPageInfo.pages},limit=${discountPageInfo.pageSize})}">尾页</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</body>
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+    window.onload=function(){
+        console.log("参数: " + '${result}')
+        switch ("${result}") {
+            case "addSuccess":
+                alert('success', '√ -添加成功!!!', 2000);
+                break;
+            case "addError":
+                alert('error', 'x -添加失败', 2000);
+                break;
+            case "editSuccess":
+                alert('success', '√ -修改成功!!!', 2000);
+                break;
+            case "editError":
+                alert('error', 'x -修改失败!!!', 2000);
+                break;
+            case "deleteSuccess":
+                alert('success', '√ -删除成功!!!', 2000);
+                break;
+            case "deleteError":
+                alert('error', 'x -删除失败!!!', 2000);
+                break;
+            case "valueError":
+                alert('error', 'x -传值失败!!!', 2000);
+                break;
+            default:
+                break;
+        }
+    };
+</script>
+</html>

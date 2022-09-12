@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.CartDao">
+    <insert id="insertOrder"
+            parameterType="com.itheima.b2b.commonmodule.model.Userorder">
+        INSERT INTO userorder (goodsname, number,
+        price,time,uid )VALUES(#{goodsname}, #{number},
+        #{price},now(),#{uid});
+    </insert>
+    <delete id="deleteCart" parameterType="int">
+        delete from cart WHERE id = #{gid}
+    </delete>
+</mapper>

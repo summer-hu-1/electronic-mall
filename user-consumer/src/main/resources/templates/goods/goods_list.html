@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>用户信息显示页面</title>
+
+    <div th:replace="common/common.html :: common_resource"></div>
+  <!--  <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.js"></script>-->
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商品信息列表</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="goods_list.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 3D立体按钮在button的class中加入 dim -->
+                    <div class="ibox-content" style="margin-bottom:50px">
+                        <div class="row">
+                            <div class="col-sm-2 m-b-xs">
+                                <a data-toggle="modal" th:href="@{/goods/toaddGoodspage}">
+                                    <button style="width:130px" class="btn btn-outline btn-primary" type="button">
+                                        <i class="fa fa-plus"></i> 新增商品
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <form th:action="@{/goods/getAllGoodsByGName}">
+                                         <span class="input-group-btn">
+                                        <input style="height:35px;" type="text" placeholder="请输入关键词" id="keywords" name="keywords"
+                                               class="input-sm form-control">
+                                        <button style="height:35px;width:80px;" type="submit" class="btn btn-sm btn-primary"> 搜索</button>
+                                    </span>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" style="table-layout: fixed;">
+                                <thead>
+                                    <tr style="size:24px;height:60px">
+                                        <th style="text-align:center;width:10%">商品编号</th>
+                                        <th style="text-align:center;width:10%">商品名称</th>
+                                        <th style="text-align:center;width:50%">商品描述</th>
+                                        <th style="text-align:center;width:10%">价钱</th>
+                                        <th style="text-align:center;width:20%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;size:18px">
+                                    <tr th:each="goods : ${goodsPageInfo.list}">
+                                        <td th:text="${goods.getGid()}">商品编号</td>
+                                        <td th:text="${goods.getGname()}">商品名称</td>
+                                        <td th:text="${goods.getGdetails()}" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">商品描述</td>
+                                        <td th:text="${goods.getGprice()}">价钱</td>
+                                        <td>
+                                            <a th:href="@{/goods/findGoodsByGid(gid= ${goods.getGid()})}">
+                                                <button style="margin-top:10px" class="btn btn-outline btn-success" type="button">
+                                                    <i class="fa fa-paste"></i> 修改
+                                                </button>
+                                            </a>
+                                            <a th:href="@{/goods/deleteGoodsById(gid= ${goods.getGid()})}">
+                                                <button style="margin-top:10px" class="btn btn-outline btn-danger " type="button" >
+                                                    <i class="fa fa-warning"></i> 删除
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- 分页组件 -->
+                            <div class="pagelist">
+                                <!--显示分页信息-->
+                                <div class="modal-footer no-margin-top">
+                                    <div class="col-md-6">
+                                        当前第 [[${goodsPageInfo.pageNum}]]页,共 [[${goodsPageInfo.pages}]] 页.一共 [[${goodsPageInfo.total}]] 条记录
+                                    </div>
+
+                                    <ul class="pagination pull-right no-margin">
+                                        <li th:if="${goodsPageInfo.hasPreviousPage}">
+                                            <a  th:href="@{/goods/getAllGoods(currentPage=1,limit=${goodsPageInfo.pageSize})}">首页</a>
+                                        </li>
+
+                                        <!--遍历条数-->
+                                        <li th:each="nav:${goodsPageInfo.navigatepageNums}">
+                                            <a th:href="@{/goods/getAllGoods(currentPage=${nav},limit=${goodsPageInfo.pageSize})}" th:text="${nav}" th:if="${nav != goodsPageInfo.pageNum}"></a>
+                                            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == goodsPageInfo.pageNum}" th:text="${nav}" ></span>
+                                        </li>
+
+
+                                        <li th:if="${goodsPageInfo.lastPage}">
+                                            <a  th:href="@{/goods/getAllGoods(currentPage=${goodsPageInfo.pages},limit=${goodsPageInfo.pageSize})}">尾页</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</body>
+<script type="text/javascript">
+
+    function editForm(gid, gname, gdetails,gprice ) {
+        document.getElementById("goodsForm").action="/goods/editGoods"
+        document.getElementById("gid").value = gid;
+        document.getElementById("gname").value = gname;
+        document.getElementById("gdetails").value = gdetails;
+        document.getElementById("gprice").value = gprice;
+        document.getElementById('gid').readOnly = true;
+    }
+</script>
+<script type="text/javascript">
+    window.onload=function(){
+        console.log("参数: " + '${result}')
+        switch ("${result}}") {
+            case "addSuccess":
+                Message('success', '√ -添加成功!!!', 2000);
+                break;
+            case "addError":
+                Message('error', 'x -添加失败', 2000);
+                break;
+            case "editSuccess":
+                Message('success', '√ -修改成功!!!', 2000);
+                break;
+            case "editError":
+                Message('error', 'x -修改失败!!!', 2000);
+                break;
+            case "deleteSuccess":
+                Message('success', '√ -删除成功!!!', 2000);
+                break;
+            case "deleteError":
+                Message('error', 'x -删除失败!!!', 2000);
+                break;
+            case "valueError":
+                Message('error', 'x -传值失败!!!', 2000);
+                break;
+            default:
+                break;
+        }
+    };
+</script>
+</html>

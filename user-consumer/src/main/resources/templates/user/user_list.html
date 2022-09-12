@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户信息显示页面</title>
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户信息列表</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="user_list.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 3D立体按钮在button的class中加入 dim -->
+                    <div class="ibox-content" style="margin-bottom:50px">
+                        <div class="row">
+                            <div class="col-sm-2 m-b-xs">
+                                <a data-toggle="modal" href="user_list.html#modal-form" onclick="addForm()">
+                                    <button style="width:130px" class="btn btn-outline btn-primary" type="button">
+                                        <i class="fa fa-plus"></i> 新增用户
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <form th:action="@{/admin/getAllUserByphonenum}">
+                                         <span class="input-group-btn">
+                                        <input style="height:35px;" type="text" placeholder="请输入关键词" id="keywords" name="keywords"
+                                               class="input-sm form-control">
+                                        <button style="height:35px;width:80px;" type="submit" class="btn btn-sm btn-primary"> 搜索</button>
+                                    </span>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" >
+                                <thead>
+                                    <tr style="size:24px;height:60px">
+                                        <th style="text-align:center;width:30%">账号</th>
+                                        <th style="text-align:center;width:20%">用户名</th>
+                                        <th style="text-align:center;width:10%">密码</th>
+                                        <th style="text-align:center;width:10%">国籍</th>
+                                        <th style="text-align:center;width:30%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;size:18px">
+                                    <tr th:each="user : ${userPageInfo.list}">
+                                        <td th:text="${user.getPhonenum()}">账号</td>
+                                        <td th:text="${user.getUsername()}">用户名</td>
+                                        <td th:text="${user.getPassword()}">密码</td>
+                                        <td th:text="${user.getNationality()}">国籍</td>
+                                        <td>
+                                            <a data-toggle="modal" href="user_list.html#modal-form"
+                                               th:data-phonenum="${user.getPhonenum()}"
+                                               th:data-username="${user.getUsername()}"
+                                               th:data-password="${user.getPassword()}"
+                                               th:data-nationality="${user.getNationality()}"
+                                               onclick="editForm(this.getAttribute('data-phonenum'),
+                                               this.getAttribute('data-username'),
+                                               this.getAttribute('data-password'),
+                                               this.getAttribute('data-nationality'))">
+                                                <button style="margin-top:10px" class="btn btn-outline btn-success" type="button">
+                                                    <i class="fa fa-paste"></i> 修改
+                                                </button>
+                                            </a>
+                                            <a th:href="@{/admin/deleteUserById(phonenum = ${user.getPhonenum()})}">
+                                                <button style="margin-top:10px" class="btn btn-outline btn-danger " type="button" >
+                                                    <i class="fa fa-warning"></i> 删除
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- 分页组件 -->
+                            <div class="pagelist">
+                                <!--显示分页信息-->
+                                <div class="modal-footer no-margin-top">
+                                    <div class="col-md-6">
+                                        当前第 [[${userPageInfo.pageNum}]]页,共 [[${userPageInfo.pages}]] 页.一共 [[${userPageInfo.total}]] 条记录
+                                    </div>
+
+                                    <ul class="pagination pull-right no-margin">
+                                        <li th:if="${userPageInfo.hasPreviousPage}">
+                                            <a  th:href="@{/admin/getAllUser(currentPage=1,limit=${userPageInfo.pageSize})}">首页</a>
+                                        </li>
+
+                                        <!--遍历条数-->
+                                        <li th:each="nav:${userPageInfo.navigatepageNums}">
+                                            <a th:href="@{/admin/getAllUser(currentPage=${nav},limit=${userPageInfo.pageSize})}" th:text="${nav}" th:if="${nav != userPageInfo.pageNum}"></a>
+                                            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == userPageInfo.pageNum}" th:text="${nav}" ></span>
+                                        </li>
+
+
+                                        <li th:if="${userPageInfo.lastPage}">
+                                            <a  th:href="@{/admin/getAllUser(currentPage=${userPageInfo.pages},limit=${userPageInfo.pageSize})}">尾页</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div th:include="user/user_add.html :: Userfragment"></div>
+
+</body>
+<script type="text/javascript">
+    function addForm() {
+        document.getElementById("userForm").action="/admin/addUser"
+        document.getElementById("phonenum").value = '';
+        document.getElementById("username").value = '';
+        document.getElementById("password").value = '';
+        document.getElementById("pwdconfirm").value = '';
+        document.getElementById("nationality").value = '';
+        document.getElementById("nationality").value = '';
+        document.getElementById('phonenum').readOnly = false;
+    }
+    function editForm(phonenum, username, password, nationality) {
+        document.getElementById("userForm").action="/admin/editUser"
+        document.getElementById("phonenum").value = phonenum;
+        document.getElementById("username").value = username;
+        document.getElementById("password").value = password;
+        document.getElementById("pwdconfirm").value = password;
+        document.getElementById("nationality").value = nationality;
+        document.getElementById('phonenum').readOnly = true;
+    }
+    //form判断
+    function checkinput() {
+        if (userForm.phonenum.value == "" && userForm.phonenum.value.length != 11) {
+            alert("请输入手机号或输入的手机号有误，请检查！！");
+            return false;
+        }
+
+        if (userForm.username.value == "") {
+            alert("请输入用户名！！！");
+            return false;
+        }
+        if (userForm.password.value == "") {
+            alert("请输入密码");
+            return false;
+        }
+        if (userForm.pwdconfirm.value == "" && userForm.pwdconfirm.value != myform.pwdconfirm.value) {
+            alert("密码有误！");
+            return false;
+        }
+        if (userForm.nationality.value == "") {
+            alert("请输入国籍");
+            return false;
+        }
+    }
+
+</script>
+<script type="text/javascript">
+    window.onload=function(){
+        console.log("参数: " + '${result}')
+        switch ("${result}}") {
+            case "addSuccess":
+                Message('success', '√ -添加成功!!!', 2000);
+                break;
+            case "addError":
+                Message('error', 'x -添加失败', 2000);
+                break;
+            case "editSuccess":
+                Message('success', '√ -修改成功!!!', 2000);
+                break;
+            case "editError":
+                Message('error', 'x -修改失败!!!', 2000);
+                break;
+            case "deleteSuccess":
+                Message('success', '√ -删除成功!!!', 2000);
+                break;
+            case "deleteError":
+                Message('error', 'x -删除失败!!!', 2000);
+                break;
+            case "valueError":
+                Message('error', 'x -传值失败!!!', 2000);
+                break;
+            default:
+                break;
+        }
+    };
+</script>
+</html>

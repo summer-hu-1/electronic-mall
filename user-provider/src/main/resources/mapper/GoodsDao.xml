@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.userprovider.dao.GoodsDao">
+
+
+    <resultMap id="AllGoodsResult" type="com.itheima.b2b.commonmodule.model.Goods">
+        <id property="gid" column="gid"></id>
+        <result property="gname" column="gname"></result>
+        <result property="gdetails" column="gdetails"></result>
+        <result property="gprice" column="gprice"></result>
+
+    </resultMap>
+
+    <select id="getAllGoods" resultMap="AllGoodsResult" parameterType="string">
+        select gid,gname,gdetails,gprice from goods
+    </select>
+
+    <select id="getAllGoodsByGName" resultType="com.itheima.b2b.commonmodule.model.Goods">
+        select gid,gname,gdetails,gprice from goods where gname like concat('%',#{gname},'%')
+    </select>
+
+    <select id="findGoodsByGid" resultType="com.itheima.b2b.commonmodule.model.Goods">
+        select gid,gname,gdetails,gprice from goods where gid=#{gid}
+    </select>
+
+    <select id="findGoodsByGname" resultType="com.itheima.b2b.commonmodule.model.Goods">
+        select gid,gname,gdetails,gprice from goods where gname=#{goodsname}
+    </select>
+
+    <insert id="addGoods">
+        insert into goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gid != null  and gid!=''">gid,</if>
+            <if test="gname != null  and gname!=''">gname,</if>
+            <if test="gdetails != null  and gdetails!=''">gdetails,</if>
+            <if test="gremain != null  and gremain!=''">gremain,</if>
+            <if test="gprice != null  and gprice!=''">gprice,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gid != null  and gid!=''">#{gid},</if>
+            <if test="gname != null and gname!=''">#{gname},</if>
+            <if test="gdetails != null and gdetails!=''">#{gdetails},</if>
+            <if test="gremain != null and gremain!=''">#{gremain},</if>
+            <if test="gprice != null and gprice!=''">#{gprice},</if>
+        </trim>
+    </insert>
+
+    <update id="editGoods">
+        update goods
+        <trim prefix="set" suffixOverrides=",">
+            <if test="gname != null and gname != ''">
+                gname=#{gname},
+            </if>
+            <if test="gdetails != null and gdetails != ''">
+                gdetails=#{gdetails},
+            </if>
+            <if test="gprice != null and gprice != ''">
+                gprice=#{gprice},
+            </if>
+        </trim>
+        where gid=#{gid}
+    </update>
+
+    <delete id="deleteGoodsById">
+        delete from goods where gid=#{gid}
+    </delete>
+
+
+</mapper>

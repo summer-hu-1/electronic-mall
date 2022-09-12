@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.userprovider.dao.DiscountDao">
+
+
+    <resultMap id="AllDiscountResult" type="com.itheima.b2b.commonmodule.model.Discount">
+        <id property="id" column="id"></id>
+        <result property="discountid" column="discountid"></result>
+        <result property="discountnum" column="discountnum"></result>
+        <result property="goodsid" column="goodsid"></result>
+        <result property="goodsname" column="goodsname"></result>
+
+    </resultMap>
+
+    <select id="getAllDiscount" resultMap="AllDiscountResult">
+        select id,discountid,discountnum,goodsid,goodsname from discount
+    </select>
+
+    <select id="getAllDiscountByGName" resultMap="AllDiscountResult">
+        select id,discountid,discountnum,goodsid,goodsname from discount where goodsname like concat('%',#{goodsname},'%')
+    </select>
+    <select id="findDiscountById" resultType="com.itheima.b2b.commonmodule.model.Discount">
+        select id,discountid,discountnum,goodsid,goodsname from discount where id=#{id}
+    </select>
+
+    <insert id="addDiscount" parameterType="com.itheima.b2b.commonmodule.model.Discount">
+        insert into discount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="discountid != null  and discountid!=''">discountid,</if>
+            <if test="discountnum != null  and discountnum!=''">discountnum,</if>
+            <if test="goodsid != null  and goodsid!=''">goodsid,</if>
+            <if test="goodsname != null  and goodsname!=''">goodsname,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="discountid != null and discountid!=''">#{discountid},</if>
+            <if test="discountnum != null and discountnum!=''">#{discountnum},</if>
+            <if test="goodsid != null and goodsid!=''">#{goodsid},</if>
+            <if test="goodsname != null and goodsname!=''">#{goodsname},</if>
+        </trim>
+    </insert>
+
+    <update id="editDiscount" parameterType="com.itheima.b2b.commonmodule.model.Discount">
+        update discount
+        <trim prefix="set" suffixOverrides=",">
+            <if test="discountnum != null and discountnum != ''">
+                discountnum=#{discountnum},
+            </if>
+            <if test="goodsid != null and goodsid != ''">
+                goodsid=#{goodsid},
+            </if>
+            <if test="goodsname != null and goodsname != ''">
+                goodsname=#{goodsname},
+            </if>
+        </trim>
+        where discountid=#{discountid}
+    </update>
+
+    <delete id="deleteDiscountById" parameterType="string">
+        delete from discount where id=#{id}
+    </delete>
+</mapper>

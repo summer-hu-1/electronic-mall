@@ -1,0 +1,354 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Welcome to shop page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body>
+
+<!--header area start-->
+
+<header>
+    <div class="main_header">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="header_contact_info">
+                            <ul>
+                                <li><a href="#"><i class="icon-call-in"></i> 联系电话：12345</a></li>
+                                <li><a href="#"><i class="icon-envelope"></i> 欢迎联系咱们的电子商城</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="language_currency text-right" th:if="${session.phonenum} ne null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/getAll}"><i class="icon-user"></i>  <em th:text="${session.phonenum}"></em> </a>
+                                </li>
+                                <li class="cart">
+                                    <a th:href="@{/goods/cartAll}"><i class="layui-icon-cart"></i> 我的购物车 </a>
+                                </li>
+
+                                <li class="collect">
+                                    <a th:href="@{/goods/collectAll}"><i class="layui-icon-cart"></i> 我的收藏 </a>
+                                </li>
+                                <li class="order">
+                                    <a th:href="@{/goods/getAllorder}"><i class="note-icon-orderedlist"></i> 我的订单 </a>
+                                </li>
+                                <li class="loginout">
+                                    <a href="http://localhost:8896/goods/quit"><i class="icon-call-out"></i> 退出登录 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="language_currency text-right" th:if="${session.phonenum} eq null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/quit}"><i class="icon-user"></i>  请登录 <i class="icon-right ion-ios-arrow-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header_middle sticky-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-3 offset-md-5 offset-lg-0 col-5 offset-3 col-sm-5">
+                        <div class="logo">
+                            <a th:href="@{/goods/getAll}" style="font-size:35px">
+                                水果电子商城
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-4">
+                        <div class="header_account_area">
+                            <div class="header_account_list search_list">
+                                <div class="dropdown_search">
+                                    <form th:action="@{/goods/getOne}">
+                                        <input type="hidden" name="pageNow" value="1">
+                                        <input placeholder="请输入所需水果名称" type="text" name="gname">
+                                        <button type="submit"><i class="icon-magnifier icons"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--header area end-->
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+<!--                    <h3>享悦生活</h3>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--shop  area start-->
+<div class="shop_area shop_reverse mb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+
+                <!--shop wrapper start-->
+
+                <!--shop toolbar start-->
+                <div class="shop_toolbar_wrapper">
+                    <div class="shop_toolbar_btn">
+
+                        <button data-role="grid_3" type="button" class="active btn-grid-3" data-toggle="tooltip" title="3"></button>
+
+                        <button data-role="grid_4" type="button"  class=" btn-grid-4" data-toggle="tooltip" title="4"></button>
+
+                        <button data-role="grid_list" type="button"  class="btn-list" data-toggle="tooltip" title="List"></button>
+                    </div>
+                    <div class=" niceselect_option">
+                    </div>
+                    <div class="page_amount">
+
+                    </div>
+                </div>
+                <!--shop toolbar end-->
+                <!-- 调用good2-->
+                <div class="row shop_wrapper">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 " th:each="goods:${goods2}">
+                        <div class="single_product" th:if="${goods} ne null">
+                            <div class="product_thumb">
+                                <a class="primary_img" th:href="@{'http://localhost:8896/goods/detail?gid='+${goods.gid}}">
+                                    <img th:src="${goods.gremain}" alt="" style="height: 334px;width: 334px" /></a>
+                                <a class="secondary_img" th:href="@{'http://localhost:8896/goods/detail?gid='+${goods.gid}}">
+                                    <img th:src="${goods.gremain}" alt="" style="height: 334px;width: 334px"/></a>
+                                <div class="label_product" th:if="${goods.discount ne null}">
+                                    <span class="labjel_sale" th:text="${goods.discount.discountnum}*10 + '折'">-20%</span>
+                                </div>
+                                <div class="action_links">
+                                    <ul>
+                                        <li class="add_to_cart"><a style="text-decoration: none; cursor: default; opacity: 0.2" href="javascript:;" title="无效"><i class="icon-bag icons"></i></a></li>
+                                        <li class="wishlist"><a th:href="@{'http://localhost:8896/goods/collectById?gid='+${goods.gid}}" title="收藏"><i class="icon-heart icons"></i></a></li>
+                                        <li class="compare"><a style="text-decoration: none; cursor: default; opacity: 0.2" href="javascript:;" title="无效"><i class="icon-shuffle icons"></i></a></li>
+                                        <li class="quick_button"><a style="text-decoration: none; cursor: default; opacity: 0.2" href="javascript:;" data-toggle="modal" data-target="#modal_box"  title="无效"> <i class="icon-eye icons"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product_content grid_content">
+                                <h4 class="product_name"><a href="product-details.html" th:text="${goods.gname}">Juicy Couture Tricot Logo Stripe Jacket</a></h4>
+                                <div class="price_box">
+                                    <span class="old_price" th:text="'￥'+${goods.gprice}">￥35.00</span>
+                                    <span class="current_price" th:text="'￥'+${goods.gprice}*${goods.discount.discountnum}">￥28.00</span>
+                                </div>
+                                <div class="product_rating">
+                                    <ul>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product_content list_content">
+                                <h4 class="product_name"><a href="product-details.html">Juicy Couture Tricot Logo Stripe Jacket</a></h4>
+                                <div class="price_box">
+                                    <span class="old_price">$245.00</span>
+                                    <span class="current_price">$76.00</span>
+                                </div>
+                                <div class="product_rating">
+                                    <ul>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 调用good1-->
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 " th:each="goods:${goods1}">
+                        <div class="single_product" th:if="${goods} ne null">
+                            <div class="product_thumb">
+                                <a class="primary_img" th:href="@{'http://localhost:8896/goods/detail?gid='+${goods.gid}}">
+                                    <img th:src="${goods.gremain}"  style="height: 334px;width: 334px" /></a>
+                                <a class="secondary_img" th:href="@{'http://localhost:8896/goods/detail?gid='+${goods.gid}}">
+                                    <img th:src="${goods.gremain}" style="height: 334px;width: 334px" /></a>
+                                <div class="action_links">
+                                    <ul>
+                                        <li class="add_to_cart"><a style="text-decoration: none; cursor: default; opacity: 0.2" href="javascript:;" title="无效"><i class="icon-bag icons"></i></a></li>
+                                        <li class="wishlist"><a th:href="@{'http://localhost:8896/goods/collectById?gid='+${goods.gid}}" title="收藏"><i class="icon-heart icons"></i></a></li>
+                                        <li class="compare"><a style="text-decoration: none; cursor: default; opacity: 0.2" href="javascript:;" title="无效"><i class="icon-shuffle icons"></i></a></li>
+                                        <li class="quick_button"><a style="text-decoration: none; cursor: default; opacity: 0.2" href="javascript:;" data-toggle="modal" data-target="#modal_box"  title="无效"> <i class="icon-eye icons"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product_content grid_content">
+                                <h4 class="product_name"><a href="product-details.html" th:text="${goods.gname}">Juicy Couture Tricot Logo Stripe Jacket</a></h4>
+                                <div class="price_box">
+                                    <span class="current_price" th:text="'￥'+${goods.gprice}">￥35.00</span>
+                                </div>
+                                <div class="product_rating">
+                                    <ul>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product_content list_content">
+                                <h4 class="product_name"><a href="product-details.html">Juicy Couture Tricot Logo Stripe Jacket</a></h4>
+                                <div class="price_box">
+                                    <span class="old_price">$245.00</span>
+                                    <span class="current_price">$76.00</span>
+                                </div>
+                                <div class="product_rating">
+                                    <ul>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                        <li><a href="#"><i class="ion-android-star"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product_desc">
+                                    <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
+                                </div>
+                                <div class="product_availability">
+                                    <p>Availability:  <span>297 In Stock</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--进行换页-->
+                <div class="shop_toolbar t_bottom">
+                    <div class="pagination">
+                        <ul>
+                            <li class="next" th:if="${pageNow > 1}"><a th:href="@{'/goods/getOne?pageNow='+${pageNow-1}}">back</a></li>
+                            <li class="current" th:text="${pageNow}"></li>
+                            <li class="next" th:if="${pageNow <= sizeAll}"><a th:href="@{'/goods/getOne?pageNow='+${pageNow+1}}">next</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--shop toolbar end-->
+                <!--shop wrapper end-->
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <!--sidebar widget start-->
+                <aside class="sidebar_widget">
+                    <div class="widget_inner">
+                        <div class="widget_list widget_filter">
+                            <h3>健康小知识</h3>
+                            <form action="#">
+                                <div id="slider-range"></div>
+                                <input type="text" name="text" id="amount" />
+                                <ul>
+                                    <li>
+                                        1、水果蔬菜对人的身体是有很大好处
+                                    </li>
+                                    <br>
+                                    <li>
+                                        2、水果蔬菜富含各种抗氧化剂
+                                    </li>
+                                        <br>
+                                    <li>
+                                        3、水果蔬菜可以增强人体免疫力
+                                    </li>
+                                    <br>
+
+                                </ul>
+
+                            </form>
+                        </div>
+                        <div class="widget_list widget_color">
+                            <h3>吃水果的时间</h3>
+                            <ul>
+                                <li>
+                                    1、早上最宜：苹果、梨、葡萄
+                                </li>
+                                <br>
+                                <li>
+                                    2、餐前别吃：圣女果、橘子、山楂、香蕉、柿子
+                                </li>
+                                <br>
+                                <li>
+                                    3、饭后应选：菠萝、木瓜、猕猴桃、橘子、山楂
+                                </li>
+                                <br>
+
+                            </ul>
+                        </div>
+
+                        <div class="widget_list tags_widget">
+                            <img th:src="@{/assets/img/blog/blog-big4.jpg}" alt="">
+                        </div>
+                    </div>
+                </aside>
+                <!--sidebar widget end-->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--shop  area end-->
+
+<!--footer area start-->
+<footer class="footer_widgets footer_padding">
+    <div class="container">
+        <div class="footer_bottom">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
+                    <div class="footer_logo">
+                        <a href="index.html"><img src="assets/img/logo/logo2.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer_link_menu">
+                        <ul>
+                            <li><a href="#">Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="copyright_area">
+                        <p>Copyright  © 2022  Summer.  <a href="https://hasthemes.com/" target="_blank">All rights reserved.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--footer area end-->
+</div>
+</body>
+</html>
+

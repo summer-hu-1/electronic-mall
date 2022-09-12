@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<body>
+<div th:fragment="common_resource">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="shortcut icon" href="favicon.ico" />
+
+  <link th:href="@{http://localhost:8893/H+/css/bootstrap.min.css}" rel="stylesheet" />
+
+  <link th:href="@{http://localhost:8893/H+/css/font-awesome.min.css}" rel="stylesheet" />
+
+  <link th:href="@{http://localhost:8893/H+/css/animate.css}" rel="stylesheet" />
+
+  <link th:href="@{http://localhost:8893/H+/css/style.css}" rel="stylesheet" />
+
+  <link th:href="@{http://localhost:8893/H+/css/jquery.contextMenu.min.css}" rel="stylesheet"/>
+
+  <!-- Data Tables -->
+  <link th:href="@{http://localhost:8893/H+/css/plugins/dataTables/dataTables.bootstrap.css}" rel="stylesheet">
+
+
+  <!-- 全局js -->
+  <script th:src="@{http://localhost:8893/H+/js/jquery.min.js}"></script>
+
+  <script th:src="@{http://localhost:8893/H+/js/bootstrap.min.js}"></script>
+
+  <script th:src="@{http://localhost:8893/H+/js/plugins/layer/layer.min.js}"></script>
+
+  <!-- 自定义js -->
+  <script th:src="@{http://localhost:8893/H+/js/content.js}"></script>
+
+  <!-- iCheck -->
+  <script th:src="@{http://localhost:8893/H+/js/plugins/iCheck/icheck.min.js}"></script>
+
+  <!-- 欢迎信息 -->
+  <script th:src="@{http://localhost:8893/H+/js/welcome.js}"></script>
+
+  <!-- Message: alert整合包 -->
+  <script th:src="@{http://localhost:8893/H+/js/bootstrapMessage.js}"></script>
+
+  <!-- 引入日期插件 -->
+  <script th:src="@{http://localhost:8893/H+/js/layui/css/layui.css}" type="text/javascript"></script>
+  <script th:src="@{http://localhost:8893/H+/js/layui/layui.js}"></script>
+
+</div>
+</body>
+</html>

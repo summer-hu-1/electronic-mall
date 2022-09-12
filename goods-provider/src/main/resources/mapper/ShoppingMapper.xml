@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.goodsprovider.dao.ShoppingDao">
+
+    <insert id="intcart" parameterType="com.itheima.b2b.commonmodule.model.Cart">
+        INSERT INTO cart (goodid, goodsname, goodremain, number, price, phonenum)
+        VALUES (#{goodid},#{goodsname},#{goodremain},#{number},#{price},#{phonenum});
+    </insert>
+
+    <insert id="insertAddress" parameterType="com.itheima.b2b.commonmodule.model.Address">
+        INSERT INTO address (receivername, address ,phonenum ,receiverphone)
+        VALUES (#{receivername},#{address},#{phonenum},#{receiverphone});
+    </insert>
+
+
+    <insert id="intcollect" parameterType="com.itheima.b2b.commonmodule.model.Collect">
+        INSERT INTO collect (phonenum, goodid, gname, gremain, gprice)
+        VALUES (#{phonenum},#{goodid},#{gname},#{gremain},#{gprice});
+    </insert>
+
+    <update id="updateCart" parameterType="int">
+        UPDATE cart SET number = number+#{number} WHERE id = #{id} ;
+    </update>
+
+    <select id="getAllcart" resultType="com.itheima.b2b.commonmodule.model.Cart" parameterType="java.lang.String">
+        select * from cart WHERE phonenum = #{phonenum}
+    </select>
+
+    <select id="getAlladdress" resultType="com.itheima.b2b.commonmodule.model.Address" parameterType="java.lang.String">
+        select * from address WHERE phonenum = #{phonenum}
+    </select>
+
+    <select id="getOneaddress" resultType="com.itheima.b2b.commonmodule.model.Address" parameterType="java.lang.String">
+        select * from address WHERE phonenum=#{phonenum}
+    </select>
+
+    <update id="updateAddress" parameterType="String">
+        UPDATE address SET receivername=#{receivername}, receiverphone=#{receiverphone}, address=#{address} WHERE phonenum = #{phonenum}
+    </update>
+
+    <select id="getAllcollect" resultType="com.itheima.b2b.commonmodule.model.Collect" parameterType="java.lang.String">
+        select * from collect WHERE phonenum = #{phonenum}
+    </select>
+
+</mapper>

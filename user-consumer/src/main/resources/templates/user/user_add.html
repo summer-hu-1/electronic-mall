@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户新增/修改弹窗页面</title>
+    <div th:replace="common/common.html :: common_resource"></div>
+</head>
+
+<body class="gray-bg">
+
+<div th:fragment="Userfragment">
+<div id="modal-form" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog" style="width:64%;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-2 b-r"></div>
+                    <div class="col-sm-5 b-l">
+                        <h3 class="m-t-none m-b" style="margin-bottom:30px"><i class="fa fa-paste"></i> 新增(修改) 用户信息</h3>
+
+                        <form action="#" method="post" id="userForm" name="userForm" onsubmit="return checkinput();">
+                            <div class="form-group">
+                                <label>手机号：</label>
+                                <input type="text" id="phonenum" name="phonenum" placeholder="请输入手机号" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>用户名：</label>
+                                <input type="text" id="username" name="username" placeholder="请输入用户名" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>密码：</label>
+                                <input type="password" id="password" name="password" placeholder="请输入密码" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>确认密码：</label>
+                                <input type="password" id="pwdconfirm" name="pwdconfirm" placeholder="请确认密码" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>国籍：</label>
+                                <input type="text" id="nationality" name="nationality" placeholder="请输入国籍" class="form-control">
+                            </div>
+
+                            <div style="margin-top:20px;">
+                                <button style="width:100px;margin-top:15px;margin-bottom:30px;"
+                                        class="btn btn-sm btn-primary pull-left m-t-n-xs" type="submit">
+                                    <strong>提交</strong>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-5 b-l"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.goodsprovider.dao.CollectDao">
+
+    <delete id="deleteCollect" parameterType="int">
+        delete from collect WHERE goodid = #{goodid}
+    </delete>
+
+
+    <select id="getOnecollect" resultType="com.itheima.b2b.commonmodule.model.Collect" parameterType="java.lang.String">
+        SELECT * FROM collect WHERE goodid = #{goodid}
+    </select>
+</mapper>

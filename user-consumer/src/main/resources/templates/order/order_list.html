@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>用户信息显示页面</title>
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+
+</head>
+
+<body class="gray-bg" >
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>商品信息列表</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="order_list.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- 3D立体按钮在button的class中加入 dim -->
+                <div class="ibox-content" style="margin-bottom:50px">
+                    <div class="row">
+
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <form th:action="@{/order/getAllOrderByGname}">
+                                         <span class="input-group-btn">
+                                        <input style="height:35px;" type="text" placeholder="请输入查找的商品名称" id="keywords"
+                                               name="keywords"
+                                               class="input-sm form-control">
+                                        <button style="height:35px;width:80px;" type="submit"
+                                                class="btn btn-sm btn-primary"> 搜索</button>
+                                    </span>
+
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="ordertable">
+                            <thead>
+                            <tr style="size:24px;height:60px">
+                                <th style="text-align:center;width:10%">订单编号</th>
+                                <th style="text-align:center;width:10%">商品名称</th>
+                                <th style="text-align:center;width:10%">数量</th>
+                                <th style="text-align:center;width:10%">总计</th>
+                                <th style="text-align:center;width:20%">下单时间</th>
+                                <th style="text-align:center;width:10%">订单状态</th>
+                                <th style="text-align:center;width:10%">用户名</th>
+<!--                                <th style="text-align:center;width:20%">操作</th>-->
+                            </tr>
+                            </thead>
+                            <tbody style="text-align:center;size:18px">
+                            <tr th:each="order : ${orderPageInfo.list}">
+                                <td th:text="${order.getOrderid()}">订单编号</td>
+                                <td th:text="${order.getGoodsname()}">商品名称</td>
+                                <td th:text="${order.getNumber()}">数量</td>
+                                <td th:text="${order.getPrice()}">总计</td>
+                                <td th:text="${#dates.format(order.getTime(), 'yyyy-MM-dd HH:mm:ss')}"
+                                    th:value="${order.getTime()}">下单时间
+                                </td>
+                                <td th:text="${#dates.format(order.getTime(), 'yyyy-MM-dd HH:mm:ss')}">订单状态</td>
+                                <td th:text="${order.getPhonenum()}">用户名</td>
+<!--                                <td>-->
+<!--                                    <a th:href="@{/order/deleteOrderById(id= ${order.getId()})}">-->
+<!--                                        <button style="margin-top:10px" class="btn btn-outline btn-danger "-->
+<!--                                                type="button">-->
+<!--                                            <i class="fa fa-warning"></i> 删除-->
+<!--                                        </button>-->
+<!--                                    </a>-->
+<!--                                </td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页组件 -->
+                        <div class="pagelist">
+                            <!--显示分页信息-->
+                            <div class="modal-footer no-margin-top">
+                                <div class="col-md-6">
+                                    当前第 [[${orderPageInfo.pageNum}]]页,共 [[${orderPageInfo.pages}]] 页.一共
+                                    [[${orderPageInfo.total}]] 条记录
+                                </div>
+
+                                <ul class="pagination pull-right no-margin">
+                                    <li th:if="${orderPageInfo.hasPreviousPage}">
+                                        <a th:href="@{/order/getAllOrder(currentPage=1,limit=${orderPageInfo.pageSize})}">首页</a>
+                                    </li>
+
+                                    <!--遍历条数-->
+                                    <li th:each="nav:${orderPageInfo.navigatepageNums}">
+                                        <a th:href="@{/order/getAllOrder(currentPage=${nav},limit=${orderPageInfo.pageSize})}"
+                                           th:text="${nav}" th:if="${nav != orderPageInfo.pageNum}"></a>
+                                        <span style="font-weight: bold;background: #6faed9;"
+                                              th:if="${nav == orderPageInfo.pageNum}" th:text="${nav}"></span>
+                                    </li>
+
+
+                                    <li th:if="${orderPageInfo.lastPage}">
+                                        <a th:href="@{/order/getAllOrder(currentPage=${orderPageInfo.pages},limit=${orderPageInfo.pageSize})}">尾页</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript">
+    /*window.onload = myfun;*/
+    function myfun() {
+
+        var tableId = document.getElementById("ordertable");
+        for (var i = 1; i < tableId.rows.length ; i++) {//tableId.rows.length：获取当前行数
+            var time = tableId.rows[i].cells[4].innerHTML;// innerHTML属性设置或返回表格行的开始和结束标签之间的HTML。
+            console.log("下单时间: " + time)
+            var timetosecond = new Date(time);
+
+            var myDate = new Date();
+            console.log("当前时间: " + myDate)
+
+
+            timetosecond.setHours(timetosecond.getHours()+1)
+            console.log("加一个小时: " + timetosecond)
+            if (myDate>timetosecond){
+                console.log("大于下单时间一个小时" )
+                tableId.rows[i].cells[5].innerHTML="待发货";
+            }else {
+                tableId.rows[i].cells[5].innerHTML="已付款";
+            }
+
+            timetosecond.setHours(timetosecond.getHours()+2)
+            console.log("加一个小时: " + timetosecond)
+            if (myDate>timetosecond){
+                tableId.rows[i].cells[5].innerHTML="";
+                console.log("大于下单时间一个小时" )
+                tableId.rows[i].cells[5].innerHTML="已发货"
+            }
+        }
+    }
+
+    $().ready(function(){
+        myfun();
+    });
+
+
+</script>
+<script type="text/javascript">
+    window.onload = function () {
+        console.log("参数: " + '${result}')
+        switch ("${result}}") {
+            case "addSuccess":
+                Message('success', '√ -添加成功!!!', 2000);
+                break;
+            case "addError":
+                Message('error', 'x -添加失败', 2000);
+                break;
+            case "editSuccess":
+                Message('success', '√ -修改成功!!!', 2000);
+                break;
+            case "editError":
+                Message('error', 'x -修改失败!!!', 2000);
+                break;
+            case "deleteSuccess":
+                Message('success', '√ -删除成功!!!', 2000);
+                break;
+            case "deleteError":
+                Message('error', 'x -删除失败!!!', 2000);
+                break;
+            case "valueError":
+                Message('error', 'x -传值失败!!!', 2000);
+                break;
+            default:
+                break;
+        }
+    };
+</script>
+</html>

@@ -1,0 +1,40 @@
+server:
+  port: 8896
+spring:
+  application:
+    name: b2b-goods-consumer
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8500/eureka/
+    instance:
+      hostname: localhost
+feign:
+  hystrix:
+    enabled: true
+thymeleaf:
+  cache: false
+  prefix: classpath:/templates/
+  suffix: .html
+  encoding: UTF-8
+ali:
+  pay:
+    ali-pay-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlSXRGkYmTdfkJxHZm+ko0TFLlyEfQamEP7LvqMY+NziGI8zYI/4yzLgSiE8b6WhMN82b0yp8WdicWtwcv9G8uqnxgGQZzjqeHCo2FwrWbMy111bQLVJFL8pBDDtCePesw5uXSdyRFhamz4vB4CN9Bpz0BcJBV1uJr+QVp/9YVzski8q4vTqL61TdUXiJkquDjv9x2rb5MQ796pw5IqjSnhfiNqHrNnbJ06FDEWb+4FXNMwvEAvGEZbaMfYowV6DyIpZzjXynYzO/sbw3WsAtiDfJuVR1k4YaNBZ/AuQALW6d3DEQirIisiSHHncLuvutQL5W5b9ngRWTstrN4jk/CQIDAQAB
+    app-id: 2021000119687429
+    charset: utf-8
+    gateway-url: https://openapi.alipaydev.com/gateway.do
+    merchant-private-key: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCIZ66+nAluDp2ZCFYhW0CZG+xgMgGULsQMmKWPLSfuG4pL3sUnrHaMCrwzBohT+C5X1MtXjEED9xJcTVj865HUGHxHIGLTYKI1fttj1mJP2WgjVeEL7pJsghy08/Et+QcHLPc4pc2O22Wl0oNI/V96YIfD82WIbYhl5KhxQSmH+Z9qkwMKjFS+KrSXlsJxvqUOK2xn3MXYL1XD80ELifN+y040Nl0SdvJNwUOXoSaMJ0wXr0HqjlWAFqe7cG/U5pAwYtgv0Ogpz2Kf8Gx+m8IRLpNymRBY295K77kDG4KK831neiqvg2Vq34zPJJW8Z+XxlH9pWJ47t//PcCW4LlgPAgMBAAECggEAZNqEUVp9fmpADA4l4LPfp1UGCHnwwOdy/P1ALARvKZYjQsWLcDIL1K97Rx7lXXB6k2Y6kpiY2Z2sbaKi0R47zF3uRYikiTVBudv5ym+QcQmF/dpZcsEKckAhiYl0IVGm6J9OiwvMWHvPRDPJ7gWouor01uT3hU+3Md9Gy7YqRuYkraDQdcbzqw50SiSMvQoj+g2Bab0Lso/xnOJL4K+L//Sxp5/BtkKTCo9QbH6dC9WOt0av2diKnMS5upfVbD+z0nNcGZmFJ/ztip8ZFwDQ1ywRDcZeWbdqWsuuZ/2Kczv3HGTUdQzXgyqZjv93zIeg0O32ztJrOgiYrzEdDEieAQKBgQDxADr8GCQKwG0Exex9KEBVaKUIFs0DvFddUxsKS7UGHmcyGXczA1fsm3Jqvn4tPoTmlG4K74qHTufnAednnbFygx4Ge4TrnwikjYHrYf1p0aZLseSwwJuIeJwSUvWFSQqxaNYCSTBB+vnY8ItmQYhnA7cdqOi9jnecmFGI3YbeLwKBgQCQ5PfiT3p0lXYteFq7ykf+upuBkXCERuSATDjpmYV8fSuCHBd9y/tCUeOFJKCT5W/gT0hHFKrwx3siRrwhbScrBXAw2/RAKIqHFmFMSlbgC9Du0TDoMftAopPYdP+kU9aRdJ/tQsXdPBGs+MwfD1qAXPx9iXGOs3yPC56G49aMIQKBgAiYCoJs1fQwMnMGH83CvrCM/72PGpZ0g+UHDqLKWlUyhlmKAO8nwl3kmSrnShaQ8SpLxrTLH/R9QtXBAqB2RhqgRFTU2MOSMzuy9BwRrXi1iimO2WnYJHO0YVRh8vFizmfPJjqEo5zmtzweL8pgsd2Ci2gaWtpPl0JVSCsKQ0HvAoGAXkGlA8KiLX8hHplBpRIE3a91A8eiA1q+wLtU9pmZHY+rovs1SO9OJylwMafPEgbaTXgl05+dR/7smjKbpb8FENZ70jzz2lzFKPWlG+TsONlW9FR/VT1WbgiU1uXde3/SgFL2ynh6kN3HvdcnqjjprcFPuzaS+brHF6L+YE+MvSECgYAP394ye0hrbqyooaKScylcfFxaXCAAKq7656Ri16FZxYYIZuG6CPZ00itOVOjjDWhXRxp1RsE0G71Gy4JrzMezdE74FRxrAINVgraLK6l9NaYc+OWmJabpqTJ5umc/ze+Z3yTvRvmYZ5iUg6fKS0o9wYS8v2YoqO6SPTe5F7ZVEw==
+    notify-url: http://8bwgvf.natappfree.cc/pay/notify
+    return-url: http://localhost:8896/goods/getAllorder
+    sign-type: RSA2
+
+#2021000119687429
+#https://openapi.alipaydev.com/gateway.do
+
+
+# 沙箱账号
+# 商家账号   afxxeb7952@sandbox.com     111111
+# 商户PID    2088621958609204
+# 买家账号   fkllnb4872@sandbox.com    111111
+# 用户UID   2088622958642404
+

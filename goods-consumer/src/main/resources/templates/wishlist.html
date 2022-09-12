@@ -1,0 +1,230 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Welcome to wishlist page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <div th:replace="common/common.html :: common_resource"></div>
+
+</head>
+
+<body>
+
+<!--header area start-->
+
+<header>
+    <div class="main_header">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-5">
+                        <div class="header_contact_info">
+                            <ul>
+                                <li><a href="#"><i class="icon-call-in"></i> 联系电话：12345</a></li>
+                                <li><a href="#"><i class="icon-envelope"></i> 欢迎联系咱们的电子商城</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="language_currency text-right" th:if="${session.phonenum} ne null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/getAll}"><i class="icon-user"></i>  <em th:text="${session.phonenum}"></em> </a>
+                                </li>
+                                <li class="cart">
+                                    <a th:href="@{/goods/cartAll}"><i class="layui-icon-cart"></i> 我的购物车 </a>
+                                </li>
+
+                                <li class="collect">
+                                    <a th:href="@{/goods/collectAll}"><i class="layui-icon-cart"></i> 我的收藏 </a>
+                                </li>
+                                <li class="order">
+                                    <a th:href="@{/goods/getAllorder}"><i class="note-icon-orderedlist"></i> 我的订单 </a>
+                                </li>
+                                <li class="loginout">
+                                    <a href="http://localhost:8896/goods/quit"><i class="icon-call-out"></i> 退出登录 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="language_currency text-right" th:if="${session.phonenum} eq null">
+                            <ul>
+                                <li class="account">
+                                    <a th:href="@{/goods/quit}"><i class="icon-user"></i>  请登录 <i class="icon-right ion-ios-arrow-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header_middle sticky-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-3 offset-md-5 offset-lg-0 col-5 offset-3 col-sm-5">
+                        <div class="logo">
+                            <a th:href="@{/goods/getAll}" style="font-size:35px">
+                                水果电子商城
+                            </a>  </div>
+                    </div>
+                    <div class="col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--header area end-->
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--wishlist area start -->
+<div class="wishlist_area">
+    <div class="container">
+        <form action="#">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc wishlist">
+                        <div class="cart_page table-responsive">
+                            <table id="ordertable">
+                                <thead>
+                                <tr>
+                                    <th class="product_remove">订单号</th>
+                                    <th class="product_thumb">商品名称</th>
+                                    <th class="product_name">购买数量</th>
+                                    <th class="product-price">总价</th>
+                                    <th class="product_quantity">购买时间</th>
+                                    <th class="product_total">订单状态</th>
+                                    <th class="product_receive">收货信息</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order:${order}">
+                                    <td th:text="${order.id}"></td>
+                                    <td th:text="${order.goodsname}"></td>
+                                    <td th:text="${order.number}"></td>
+                                    <td th:text="${order.price}"></td>
+                                    <td th:text="${#dates.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td></td>
+                                    <td>
+                                        <span th:text="${order.receivername}"></span>
+                                        <span th:text="${order.receiverphone}"></span>
+                                        <p th:text="${order.address}"></p>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="row">
+            <div class="col-12">
+                <div class="wishlist_share">
+                    <h4>Share on:</h4>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                        <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                        <li><a href="#"><i class="fa fa-tumblr"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--wishlist area end -->
+
+<!--footer area start-->
+<footer class="footer_widgets footer_padding">
+    <div class="container">
+        <div class="footer_bottom">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
+                    <div class="footer_logo">
+                        <a href="index.html"><img src="assets/img/logo/logo2.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer_link_menu">
+                        <ul>
+                            <li><a href="#">Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="copyright_area">
+                        <p>Copyright  © 2022  Summer.  <a href="https://hasthemes.com/" target="_blank">All rights reserved.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--footer area end-->
+
+
+</body>
+
+</html>
+<script type="text/javascript">
+    /*window.onload = myfun;*/
+    function myfun() {
+
+        var tableId = document.getElementById("ordertable");
+        for (var i = 1; i < tableId.rows.length ; i++) {
+            var time = tableId.rows[i].cells[4].innerHTML;
+            console.log("下单时间: " + time)
+            var timetosecond = new Date(time);
+
+            var myDate = new Date();
+            console.log("当前时间: " + myDate)
+
+
+            timetosecond.setHours(timetosecond.getHours()+1)
+            console.log("加一个小时: " + timetosecond)
+            if (myDate>timetosecond){
+                console.log("大于下单时间一个小时" )
+                tableId.rows[i].cells[5].innerHTML="待发货";
+            }else {
+                tableId.rows[i].cells[5].innerHTML="已付款";
+            }
+
+            timetosecond.setHours(timetosecond.getHours()+2)
+            console.log("再加一个小时: " + timetosecond)
+            if (myDate>timetosecond){
+                tableId.rows[i].cells[5].innerHTML="";
+                console.log("大于下单时间两个小时" )
+                tableId.rows[i].cells[5].innerHTML="已发货"
+            }
+        }
+    }
+
+    $().ready(function(){
+        myfun();
+    });
+
+
+</script>

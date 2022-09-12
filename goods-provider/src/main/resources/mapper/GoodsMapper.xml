@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.goodsprovider.dao.GoodsDao">
+
+    <resultMap id="getAllgoodsResult" type="com.itheima.b2b.commonmodule.model.Goods">
+        <id property="gid" column="gid" />
+        <result property="gname" column="gname"/>
+        <result property="gdetails" column="gdetails"/>
+        <result property="types" column="types"/>
+        <result property="gremain" column="gremain"/>
+        <result property="gprice" column="gprice"/>
+        <association property="discount" javaType="com.itheima.b2b.commonmodule.model.Discount">
+            <id property="id" column="id" />
+            <result property="discountid" column="discountid"/>
+            <result property="discountnum" column="discountnum"/>
+            <result property="goodsid" column="goodsid"/>
+            <result property="goodsname" column="goodsname"/>
+        </association>
+    </resultMap>
+
+    <select id="getAllgoods" resultType="com.itheima.b2b.commonmodule.model.Goods" >
+        SELECT * FROM goods
+
+    </select>
+    <select id="getOnegoods" resultType="com.itheima.b2b.commonmodule.model.Goods" parameterType="java.lang.String">
+        SELECT * FROM goods WHERE gname LIKE concat('%',#{gname},'%')
+
+    </select>
+     <select id="getOnegid" resultType="com.itheima.b2b.commonmodule.model.Goods" parameterType="string">
+         select * from goods where gid=#{gid}
+     </select>
+
+    <select id="getDiscount" resultMap="getAllgoodsResult">
+         select d.discountid,d.discountnum,d.goodsid,d.goodsname,g.gid,g.gname,g.gdetails,g.gprice,g.types,g.gremain FROM discount d,goods g
+       WHERE d.goodsid=g.gid
+    </select>
+</mapper>
